@@ -156,7 +156,7 @@ class MapScene extends Phaser.Scene {
           // Tiled image paths are rooted at public/assets/maps, not beside each nested map JSON.
           // For example overworld/overworld.json references the shared tilesets/grass.png.
           const imagePath = String(tilesetData.image).replace(/^\.\//, '').replace(/^\/+/, '');
-          this.load.image(key, assetUrl(`assets/maps/${imagePath}`));
+          this.load.image(key, assetUrl(`assets/maps/${mapId}/${imagePath}`));
           missing.push(key);
         }
       }
