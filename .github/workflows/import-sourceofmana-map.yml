@@ -1,6 +1,10 @@
 name: Import Source of Mana world and assets
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-sourceofmana-map.yml'
   workflow_dispatch:
     inputs:
       map:
@@ -41,18 +45,14 @@ jobs:
           set -euo pipefail
           mkdir -p public/assets/maps
           if [ -n "${{ inputs.map }}" ]; then
-            maps="${{ inputs.map }}"
+            maps="sourceofmana/${{ inputs.map }}"
           else
             maps=$(find sourceofmana/data/maps -type f -name '*.tmx' | sort)
           fi
 
           while IFS= read -r map; do
             [ -n "$map" ] || continue
-            if [[ "$map" = sourceofmana/* ]]; then
-              relative="${map#sourceofmana/}"
-            else
-              relative="$map"
-            fi
+            relative="${map#sourceofmana/}"
             map_id="${relative#data/maps/}"
             output="public/assets/maps/${map_id%.tmx}.json"
             echo "Importing $relative -> $output"
