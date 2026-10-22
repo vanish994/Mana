@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
-const INDEX_URL = 'assets/maps/map-index.json';
+const assetUrl = (path) => `${import.meta.env.BASE_URL}${path}`;
+const INDEX_URL = assetUrl('assets/maps/map-index.json');
 const TILESET_PREFIX = 'tileset:';
 const PLAYER_SPEED = 150;
 
@@ -137,7 +138,7 @@ class MapScene extends Phaser.Scene {
     this.mapId = mapId;
 
     const mapKey = `map:${mapId}`;
-    this.load.tilemapTiledJSON(mapKey, `assets/maps/${mapId}.json`);
+    this.load.tilemapTiledJSON(mapKey, assetUrl(`assets/maps/${mapId}.json`));
     this.load.once(Phaser.Loader.Events.COMPLETE, () => {
       if (token !== this.mapLoadToken) return;
       const source = this.cache.tilemap.get(mapKey)?.data;
@@ -153,7 +154,7 @@ class MapScene extends Phaser.Scene {
         const key = `${TILESET_PREFIX}${mapId}:${tilesetData.name}`;
         if (!this.textures.exists(key)) {
           const mapDirectory = mapId.includes('/') ? mapId.slice(0, mapId.lastIndexOf('/')) : '';
-          this.load.image(key, `assets/maps/${mapDirectory ? `${mapDirectory}/` : ''}${tilesetData.image}`);
+          this.load.image(key, assetUrl(`assets/maps/${mapDirectory ? `${mapDirectory}/` : ''}${tilesetData.image}`));
           missing.push(key);
         }
       }
