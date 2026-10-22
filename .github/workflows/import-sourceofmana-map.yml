@@ -1,6 +1,11 @@
 name: Import Source of Mana map and assets
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
   workflow_dispatch:
     inputs:
       map:
@@ -41,7 +46,7 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Convert TMX to Tiled JSON
-        run: npm run convert:sourceofmana -- --source ./sourceofmana --map "${{ inputs.map }}"
+        run: npm run convert:sourceofmana -- --source ./sourceofmana --map "${{ inputs.map || 'data/maps/tonori/tulimshar/tulimshar.tmx' }}"
 
       - name: Import reusable Source of Mana assets
         run: |
