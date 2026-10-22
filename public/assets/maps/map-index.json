@@ -1,0 +1,169 @@
+{
+  "start": "tonori/tulimshar/tulimshar",
+  "maps": [
+    {
+      "id": "artis/artis.json",
+      "name": "artis.json"
+    },
+    {
+      "id": "candor/candor-arena.json",
+      "name": "candor arena.json"
+    },
+    {
+      "id": "candor/candor-cave.json",
+      "name": "candor cave.json"
+    },
+    {
+      "id": "drazil/drazil.json",
+      "name": "drazil.json"
+    },
+    {
+      "id": "ocean/ocean.json",
+      "name": "ocean.json"
+    },
+    {
+      "id": "overworld/overworld.json",
+      "name": "overworld.json"
+    },
+    {
+      "id": "sewer/artis-sewer.json",
+      "name": "artis sewer.json"
+    },
+    {
+      "id": "ship/ship-alige-hide.json",
+      "name": "ship alige hide.json"
+    },
+    {
+      "id": "ship/ship-first-deck.json",
+      "name": "ship first deck.json"
+    },
+    {
+      "id": "ship/ship-hold.json",
+      "name": "ship hold.json"
+    },
+    {
+      "id": "ship/ship-nard-room.json",
+      "name": "ship nard room.json"
+    },
+    {
+      "id": "ship/ship-second-deck.json",
+      "name": "ship second deck.json"
+    },
+    {
+      "id": "splatyna/splatyna-boss.json",
+      "name": "splatyna boss.json"
+    },
+    {
+      "id": "splatyna/splatyna-corridor.json",
+      "name": "splatyna corridor.json"
+    },
+    {
+      "id": "splatyna/splatyna-entrance.json",
+      "name": "splatyna entrance.json"
+    },
+    {
+      "id": "splatyna/splatyna-first.json",
+      "name": "splatyna first.json"
+    },
+    {
+      "id": "splatyna/splatyna-second.json",
+      "name": "splatyna second.json"
+    },
+    {
+      "id": "splatyna/splatyna-third.json",
+      "name": "splatyna third.json"
+    },
+    {
+      "id": "tonori/desertpit/desert-mountain.json",
+      "name": "desert mountain.json"
+    },
+    {
+      "id": "tonori/desertpit/desert-pit.json",
+      "name": "desert pit.json"
+    },
+    {
+      "id": "tonori/desertpit/mountain-cave.json",
+      "name": "mountain cave.json"
+    },
+    {
+      "id": "tonori/desertpit/snake-pit.json",
+      "name": "snake pit.json"
+    },
+    {
+      "id": "tonori/manayir/manayir-beach.json",
+      "name": "manayir beach.json"
+    },
+    {
+      "id": "tonori/manayir/manayir.json",
+      "name": "manayir.json"
+    },
+    {
+      "id": "tonori/sandstorm/mine-abandoned-level.json",
+      "name": "mine abandoned level.json"
+    },
+    {
+      "id": "tonori/sandstorm/mine-deep-level.json",
+      "name": "mine deep level.json"
+    },
+    {
+      "id": "tonori/sandstorm/mine-entrance.json",
+      "name": "mine entrance.json"
+    },
+    {
+      "id": "tonori/sandstorm/sandstorm.json",
+      "name": "sandstorm.json"
+    },
+    {
+      "id": "tonori/tulimshar outskirts/tulimshar-beach.json",
+      "name": "tulimshar beach.json"
+    },
+    {
+      "id": "tonori/tulimshar outskirts/tulimshar-eastern-hills.json",
+      "name": "tulimshar eastern hills.json"
+    },
+    {
+      "id": "tonori/tulimshar outskirts/tulimshar-southern-hills.json",
+      "name": "tulimshar southern hills.json"
+    },
+    {
+      "id": "tonori/tulimshar outskirts/tulimshar-western-cave.json",
+      "name": "tulimshar western cave.json"
+    },
+    {
+      "id": "tonori/tulimshar outskirts/tulimshar-western-hills.json",
+      "name": "tulimshar western hills.json"
+    },
+    {
+      "id": "tonori/tulimshar/castle-corridors.json",
+      "name": "castle corridors.json"
+    },
+    {
+      "id": "tonori/tulimshar/castle.json",
+      "name": "castle.json"
+    },
+    {
+      "id": "tonori/tulimshar/tulimshar-bay.json",
+      "name": "tulimshar bay.json"
+    },
+    {
+      "id": "tonori/tulimshar/tulimshar-center.json",
+      "name": "tulimshar center.json"
+    },
+    {
+      "id": "tonori/tulimshar/tulimshar.json",
+      "name": "tulimshar.json"
+    },
+    {
+      "id": "tonori/tulimshar/wall-west-chamber.json",
+      "name": "wall west chamber.json"
+    },
+    {
+      "id": "tonori/tulimshar/wall-west-pathway.json",
+      "name": "wall west pathway.json"
+    },
+    {
+      "id": "tulimshar.json",
+      "name": "tulimshar.json"
+    }
+  ]
+}
