@@ -153,8 +153,10 @@ class MapScene extends Phaser.Scene {
         if (!tilesetData.image) continue;
         const key = `${TILESET_PREFIX}${mapId}:${tilesetData.name}`;
         if (!this.textures.exists(key)) {
-          const mapDirectory = mapId.includes('/') ? mapId.slice(0, mapId.lastIndexOf('/')) : '';
-          this.load.image(key, assetUrl(`assets/maps/${mapDirectory ? `${mapDirectory}/` : ''}${tilesetData.image}`));
+          // Tiled image paths are rooted at public/assets/maps, not beside each nested map JSON.
+          // For example overworld/overworld.json references the shared tilesets/grass.png.
+          const imagePath = String(tilesetData.image).replace(/^\.\//, '').replace(/^\/+/, '');
+          this.load.image(key, assetUrl(`assets/maps/${imagePath}`));
           missing.push(key);
         }
       }
@@ -174,10 +176,12 @@ class MapScene extends Phaser.Scene {
             this.showMapError('Erro: nenhum tileset carregado para este mapa.');
           } else {
             this.renderLayers(map, tilesets);
-            const visibleTiles = this.mapLayers.reduce((sum, layer) => {
-              const rows = layer.layer?.data;
-              if (!Array.isArray(rows)) return sum;
-              return sum + rows.reduce((rowSum, row) => rowSum + (Array.isArray(row) ? row.filter((tile) => tile && tile.index >= 0).length : 0), 0);
+            // Inspect the original Tiled JSON: its tilelayer.data is a flat GID array,
+            // whereas Phaser's parsed LayerData uses a different internal structure.
+            const visibleTiles = (source.layers ?? []).reduce((sum, layer) => {
+              if (layer.type === 'group') return sum;
+              if (layer.type !== 'tilelayer' || /^collision(s)?$/i.test(layer.name?.trim() ?? '')) return sum;
+              return sum + (Array.isArray(layer.data) ? layer.data.filter((gid) => Number(gid) > 0).length : 0);
             }, 0);
             if (!this.mapLayers.length || visibleTiles === 0) {
               this.showMapError(`Mapa carregado, mas sem tiles visíveis. Camadas: ${source.layers?.map((layer) => layer.name).join(', ') || 'nenhuma'}; tilesets: ${tilesets.map((tileset) => tileset.name).join(', ') || 'nenhum'}.`);
