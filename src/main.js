@@ -153,15 +153,12 @@ class MapScene extends Phaser.Scene {
         if (!tilesetData.image) continue;
         const key = `${TILESET_PREFIX}${mapId}:${tilesetData.name}`;
         if (!this.textures.exists(key)) {
-          // Tiled image paths are rooted at public/assets/maps, not beside each nested map JSON.
-          // For example overworld/overworld.json references the shared tilesets/grass.png.
+          // The converter stores each map's tilesets beside the map JSON, so
+          // remove the JSON filename from mapId before resolving its image path.
+          // Example: overworld/overworld.json -> assets/maps/overworld/tilesets/grass.png.
           const imagePath = String(tilesetData.image).replace(/^\.\//, '').replace(/^\/+/, '');
-          // The overworld JSON references its original Source of Mana tilesets;
-          // those files are imported under sourceofmana/tilesets/overworld.
-          const imageFile = imagePath.split('/').pop();
-          const imageUrl = mapId === 'overworld/overworld'
-            ? assetUrl(`assets/sourceofmana/tilesets/overworld/${imageFile}`)
-            : assetUrl(`assets/maps/${mapId}/${imagePath}`);
+          const mapFolder = mapId.includes('/') ? mapId.slice(0, mapId.lastIndexOf('/')) : '';
+          const imageUrl = assetUrl(`assets/maps/${mapFolder ? `${mapFolder}/` : ''}${imagePath}`);
           this.load.image(key, imageUrl);
           missing.push(key);
         }
@@ -220,13 +217,14 @@ class MapScene extends Phaser.Scene {
           render(layerData.layers ?? []);
           continue;
         }
-        if (layerData.type !== 'tilelayer') continue;
-        // Collision tiles are gameplay metadata, not visible terrain. Drawing this layer
-        // last can cover the entire world with the collision tileset's dark pixels.
+        // map.layers contains Phaser LayerData objects, not the raw Tiled JSON
+        // objects. Phaser has already flattened Tiled tile layers here, and LayerData
+        // does not expose the Tiled "type" field. Filtering on layerData.type skips
+        // every layer and leaves the player floating over a black background.
+        // Collision tiles are gameplay metadata, not visible terrain.
         if (/^collision(s)?$/i.test(layerData.name?.trim() ?? '')) continue;
-        // Phaser resolves a layer by its name (or its own internal array index),
-        // not by the Tiled layer ID. Tiled IDs start at 1 and are not Phaser indices.
-        const layer = map.createLayer(layerData.name, tilesets, 0, 0);
+        // The layer name is the Tiled layer name; layerData.id is a Tiled ID, not an index.
+        const layer = map.createLayer(layerData.name, tilesets, layerData.x ?? 0, layerData.y ?? 0);
         if (!layer) {
           console.warn('Camada não criada:', layerData.name);
           continue;
