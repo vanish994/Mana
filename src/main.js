@@ -86,7 +86,8 @@ class MapScene extends Phaser.Scene {
         const key = `${TILESET_PREFIX}${mapId}:${tilesetData.name}`;
         textureKeys.push(key);
         if (!this.textures.exists(key)) {
-          this.load.image(key, `assets/maps/${mapId}/${tilesetData.image}`);
+          const mapDirectory = mapId.includes('/') ? mapId.slice(0, mapId.lastIndexOf('/')) : '';
+          this.load.image(key, `assets/maps/${mapDirectory ? `${mapDirectory}/` : ''}${tilesetData.image}`);
         }
       }
 
