@@ -1,5 +1,0 @@
-BEGIN TRANSACTION;
-
-ALTER TABLE account RENAME COLUMN flags TO permission;
-
-COMMIT;

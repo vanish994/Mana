@@ -1,9 +1,0 @@
-BEGIN TRANSACTION;
-
-CREATE TABLE IF NOT EXISTS ip_ban (
-	ip_range TEXT PRIMARY KEY,
-	banned_timestamp INTEGER NOT NULL,
-	reason TEXT NOT NULL DEFAULT ''
-);
-
-COMMIT;
