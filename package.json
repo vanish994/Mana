@@ -2,6 +2,7 @@
   "name": "mana",
   "private": true,
   "version": "0.1.0",
+  "description": "Mobile MMORPG built with Phaser 4",
   "type": "module",
   "scripts": {
     "dev": "vite",
