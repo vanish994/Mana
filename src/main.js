@@ -10,32 +10,41 @@ class MapScene extends Phaser.Scene {
   }
 
   create() {
-    const map = this.make.tilemap({ key: 'tulimshar' });
+    const source = this.cache.tilemap.get('tulimshar').data;
+    const tilesets = source.tilesets ?? [];
 
-    for (const tilesetData of map.tilesets) {
-      const imageKey = `tileset-${tilesetData.name}`;
-      const imagePath = `assets/maps/${tilesetData.name}.png`;
-      this.load.image(imageKey, imagePath);
+    for (const tileset of tilesets) {
+      if (!tileset.image) continue;
+      const key = `tileset:${tileset.name}`;
+      this.load.image(key, `assets/maps/${tileset.image}`);
     }
 
-    this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-      for (const tilesetData of map.tilesets) {
-        const imageKey = `tileset-${tilesetData.name}`;
-        map.addTilesetImage(tilesetData.name, imageKey);
-      }
-      for (const layerData of map.layers) {
-        if (layerData.type === 'tilelayer') {
-          map.createLayer(layerData.name, map.tilesets);
-        }
-      }
-      this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-      this.cameras.main.centerOn(map.widthInPixels / 2, map.heightInPixels / 2);
-    });
+    this.load.once(Phaser.Loader.Events.COMPLETE, () => this.renderMap());
     this.load.start();
+  }
+
+  renderMap() {
+    const map = this.make.tilemap({ key: 'tulimshar' });
+    const tilesets = [];
+
+    for (const tilesetData of map.tilesets) {
+      const key = `tileset:${tilesetData.name}`;
+      const tileset = map.addTilesetImage(tilesetData.name, key);
+      if (tileset) tilesets.push(tileset);
+    }
+
+    for (const layerData of map.layers) {
+      if (layerData.type !== 'tilelayer') continue;
+      const layer = map.createLayer(layerData.name, tilesets, 0, 0);
+      if (layer) layer.setDepth(layerData.id);
+    }
+
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.centerOn(map.widthInPixels / 2, map.heightInPixels / 2);
   }
 }
 
-const config = {
+new Phaser.Game({
   type: Phaser.AUTO,
   parent: document.body,
   backgroundColor: '#000000',
@@ -45,6 +54,4 @@ const config = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   scene: [MapScene],
-};
-
-new Phaser.Game(config);
+});
