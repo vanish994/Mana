@@ -71,7 +71,7 @@ jobs:
               const full = path.join(dir, entry.name);
               if (entry.isDirectory()) walk(full);
               else if (entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'map-index.json') {
-                const id = path.relative(root, full).replace(/\\.json$/, '').split(path.sep).join('/');
+                const id = path.relative(root, full).replace(/\.json$/, '').split(path.sep).join('/');
                 maps.push({ id, name: id.split('/').at(-1).replace(/[-_]/g, ' ') });
               }
             }
