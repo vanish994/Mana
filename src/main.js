@@ -218,9 +218,9 @@ class MapScene extends Phaser.Scene {
         // Collision tiles are gameplay metadata, not visible terrain. Drawing this layer
         // last can cover the entire world with the collision tileset's dark pixels.
         if (/^collision(s)?$/i.test(layerData.name?.trim() ?? '')) continue;
-        // Use the Tiled layer ID: this is stable even when Phaser's name lookup
-        // differs from the source JSON and avoids silently skipping valid layers.
-        const layer = map.createLayer(layerData.id, tilesets, 0, 0);
+        // Phaser resolves a layer by its name (or its own internal array index),
+        // not by the Tiled layer ID. Tiled IDs start at 1 and are not Phaser indices.
+        const layer = map.createLayer(layerData.name, tilesets, 0, 0);
         if (!layer) {
           console.warn('Camada não criada:', layerData.name);
           continue;
