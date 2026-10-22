@@ -156,7 +156,13 @@ class MapScene extends Phaser.Scene {
           // Tiled image paths are rooted at public/assets/maps, not beside each nested map JSON.
           // For example overworld/overworld.json references the shared tilesets/grass.png.
           const imagePath = String(tilesetData.image).replace(/^\.\//, '').replace(/^\/+/, '');
-          this.load.image(key, assetUrl(`assets/maps/${mapId}/${imagePath}`));
+          // The overworld JSON references its original Source of Mana tilesets;
+          // those files are imported under sourceofmana/tilesets/overworld.
+          const imageFile = imagePath.split('/').pop();
+          const imageUrl = mapId === 'overworld/overworld'
+            ? assetUrl(`assets/sourceofmana/tilesets/overworld/${imageFile}`)
+            : assetUrl(`assets/maps/${mapId}/${imagePath}`);
+          this.load.image(key, imageUrl);
           missing.push(key);
         }
       }
