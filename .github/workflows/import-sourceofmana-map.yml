@@ -1,11 +1,6 @@
 name: Import Source of Mana map and assets
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - package.json
   workflow_dispatch:
     inputs:
       map:
