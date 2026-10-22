@@ -1,12 +1,12 @@
-name: Import Source of Mana map and assets
+name: Import Source of Mana world and assets
 
 on:
   workflow_dispatch:
     inputs:
       map:
-        description: Source of Mana TMX path
-        required: true
-        default: data/maps/tonori/tulimshar/tulimshar.tmx
+        description: Optional single TMX path to import (leave empty for all maps)
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -32,18 +32,57 @@ jobs:
           node-version: 24
           package-manager-cache: false
 
-      - name: Verify Node and npm
-        run: |
-          node --version
-          npm --version
-
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Convert TMX to Tiled JSON
-        run: npm run convert:sourceofmana -- --source ./sourceofmana --map "${{ inputs.map || 'data/maps/tonori/tulimshar/tulimshar.tmx' }}"
+      - name: Convert all world maps to Tiled JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/assets/maps
+          if [ -n "${{ inputs.map }}" ]; then
+            maps="${{ inputs.map }}"
+          else
+            maps=$(find sourceofmana/data/maps -type f -name '*.tmx' | sort)
+          fi
 
-      - name: Import reusable Source of Mana assets
+          while IFS= read -r map; do
+            [ -n "$map" ] || continue
+            if [[ "$map" = sourceofmana/* ]]; then
+              relative="${map#sourceofmana/}"
+            else
+              relative="$map"
+            fi
+            map_id="${relative#data/maps/}"
+            output="public/assets/maps/${map_id%.tmx}.json"
+            echo "Importing $relative -> $output"
+            npm run convert:sourceofmana -- --source ./sourceofmana --map "$relative" --out "$output"
+          done <<< "$maps"
+
+      - name: Build world map index
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const root = 'public/assets/maps';
+          const maps = [];
+          function walk(dir) {
+            for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+              const full = path.join(dir, entry.name);
+              if (entry.isDirectory()) walk(full);
+              else if (entry.isFile() && entry.name.endsWith('.json') && entry.name !== 'map-index.json') {
+                const id = path.relative(root, full).replace(/\\.json$/, '').split(path.sep).join('/');
+                maps.push({ id, name: id.split('/').at(-1).replace(/[-_]/g, ' ') });
+              }
+            }
+          }
+          walk(root);
+          maps.sort((a, b) => a.id.localeCompare(b.id));
+          fs.writeFileSync(path.join(root, 'map-index.json'), JSON.stringify({ start: maps.some(m => m.id === 'overworld/overworld') ? 'overworld/overworld' : 'tonori/tulimshar/tulimshar', maps }, null, 2) + '\n');
+          console.log(`Indexed ${maps.length} maps.`);
+          NODE
+
+      - name: Import reusable Source of Mana assets and metadata
         run: |
           set -e
           mkdir -p public/assets/sourceofmana/sprites
@@ -64,14 +103,14 @@ jobs:
           if [ -d sourceofmana/data/conf ]; then cp -R sourceofmana/data/conf public/assets/sourceofmana/data/; fi
           cp sourceofmana/LICENSE* public/assets/sourceofmana/ 2>/dev/null || true
 
-      - name: Commit generated map and imported assets
+      - name: Commit generated world and assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/assets
           if git diff --cached --quiet; then
-            echo "No generated asset changes."
+            echo "No generated world or asset changes."
             exit 0
           fi
-          git commit -m "build: import Source of Mana map and assets"
+          git commit -m "build: import complete Source of Mana world"
           git push origin main
