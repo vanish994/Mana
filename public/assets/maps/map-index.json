@@ -1,169 +1,169 @@
 {
-  "start": "tonori/tulimshar/tulimshar",
+  "start": "overworld/overworld",
   "maps": [
     {
-      "id": "artis/artis.json",
-      "name": "artis.json"
+      "id": "artis/artis",
+      "name": "artis"
     },
     {
-      "id": "candor/candor-arena.json",
-      "name": "candor arena.json"
+      "id": "candor/candor-arena",
+      "name": "candor arena"
     },
     {
-      "id": "candor/candor-cave.json",
-      "name": "candor cave.json"
+      "id": "candor/candor-cave",
+      "name": "candor cave"
     },
     {
-      "id": "drazil/drazil.json",
-      "name": "drazil.json"
+      "id": "drazil/drazil",
+      "name": "drazil"
     },
     {
-      "id": "ocean/ocean.json",
-      "name": "ocean.json"
+      "id": "ocean/ocean",
+      "name": "ocean"
     },
     {
-      "id": "overworld/overworld.json",
-      "name": "overworld.json"
+      "id": "overworld/overworld",
+      "name": "overworld"
     },
     {
-      "id": "sewer/artis-sewer.json",
-      "name": "artis sewer.json"
+      "id": "sewer/artis-sewer",
+      "name": "artis sewer"
     },
     {
-      "id": "ship/ship-alige-hide.json",
-      "name": "ship alige hide.json"
+      "id": "ship/ship-alige-hide",
+      "name": "ship alige hide"
     },
     {
-      "id": "ship/ship-first-deck.json",
-      "name": "ship first deck.json"
+      "id": "ship/ship-first-deck",
+      "name": "ship first deck"
     },
     {
-      "id": "ship/ship-hold.json",
-      "name": "ship hold.json"
+      "id": "ship/ship-hold",
+      "name": "ship hold"
     },
     {
-      "id": "ship/ship-nard-room.json",
-      "name": "ship nard room.json"
+      "id": "ship/ship-nard-room",
+      "name": "ship nard room"
     },
     {
-      "id": "ship/ship-second-deck.json",
-      "name": "ship second deck.json"
+      "id": "ship/ship-second-deck",
+      "name": "ship second deck"
     },
     {
-      "id": "splatyna/splatyna-boss.json",
-      "name": "splatyna boss.json"
+      "id": "splatyna/splatyna-boss",
+      "name": "splatyna boss"
     },
     {
-      "id": "splatyna/splatyna-corridor.json",
-      "name": "splatyna corridor.json"
+      "id": "splatyna/splatyna-corridor",
+      "name": "splatyna corridor"
     },
     {
-      "id": "splatyna/splatyna-entrance.json",
-      "name": "splatyna entrance.json"
+      "id": "splatyna/splatyna-entrance",
+      "name": "splatyna entrance"
     },
     {
-      "id": "splatyna/splatyna-first.json",
-      "name": "splatyna first.json"
+      "id": "splatyna/splatyna-first",
+      "name": "splatyna first"
     },
     {
-      "id": "splatyna/splatyna-second.json",
-      "name": "splatyna second.json"
+      "id": "splatyna/splatyna-second",
+      "name": "splatyna second"
     },
     {
-      "id": "splatyna/splatyna-third.json",
-      "name": "splatyna third.json"
+      "id": "splatyna/splatyna-third",
+      "name": "splatyna third"
     },
     {
-      "id": "tonori/desertpit/desert-mountain.json",
-      "name": "desert mountain.json"
+      "id": "tonori/desertpit/desert-mountain",
+      "name": "desert mountain"
     },
     {
-      "id": "tonori/desertpit/desert-pit.json",
-      "name": "desert pit.json"
+      "id": "tonori/desertpit/desert-pit",
+      "name": "desert pit"
     },
     {
-      "id": "tonori/desertpit/mountain-cave.json",
-      "name": "mountain cave.json"
+      "id": "tonori/desertpit/mountain-cave",
+      "name": "mountain cave"
     },
     {
-      "id": "tonori/desertpit/snake-pit.json",
-      "name": "snake pit.json"
+      "id": "tonori/desertpit/snake-pit",
+      "name": "snake pit"
     },
     {
-      "id": "tonori/manayir/manayir-beach.json",
-      "name": "manayir beach.json"
+      "id": "tonori/manayir/manayir",
+      "name": "manayir"
     },
     {
-      "id": "tonori/manayir/manayir.json",
-      "name": "manayir.json"
+      "id": "tonori/manayir/manayir-beach",
+      "name": "manayir beach"
     },
     {
-      "id": "tonori/sandstorm/mine-abandoned-level.json",
-      "name": "mine abandoned level.json"
+      "id": "tonori/sandstorm/mine-abandoned-level",
+      "name": "mine abandoned level"
     },
     {
-      "id": "tonori/sandstorm/mine-deep-level.json",
-      "name": "mine deep level.json"
+      "id": "tonori/sandstorm/mine-deep-level",
+      "name": "mine deep level"
     },
     {
-      "id": "tonori/sandstorm/mine-entrance.json",
-      "name": "mine entrance.json"
+      "id": "tonori/sandstorm/mine-entrance",
+      "name": "mine entrance"
     },
     {
-      "id": "tonori/sandstorm/sandstorm.json",
-      "name": "sandstorm.json"
+      "id": "tonori/sandstorm/sandstorm",
+      "name": "sandstorm"
     },
     {
-      "id": "tonori/tulimshar outskirts/tulimshar-beach.json",
-      "name": "tulimshar beach.json"
+      "id": "tonori/tulimshar outskirts/tulimshar-beach",
+      "name": "tulimshar beach"
     },
     {
-      "id": "tonori/tulimshar outskirts/tulimshar-eastern-hills.json",
-      "name": "tulimshar eastern hills.json"
+      "id": "tonori/tulimshar outskirts/tulimshar-eastern-hills",
+      "name": "tulimshar eastern hills"
     },
     {
-      "id": "tonori/tulimshar outskirts/tulimshar-southern-hills.json",
-      "name": "tulimshar southern hills.json"
+      "id": "tonori/tulimshar outskirts/tulimshar-southern-hills",
+      "name": "tulimshar southern hills"
     },
     {
-      "id": "tonori/tulimshar outskirts/tulimshar-western-cave.json",
-      "name": "tulimshar western cave.json"
+      "id": "tonori/tulimshar outskirts/tulimshar-western-cave",
+      "name": "tulimshar western cave"
     },
     {
-      "id": "tonori/tulimshar outskirts/tulimshar-western-hills.json",
-      "name": "tulimshar western hills.json"
+      "id": "tonori/tulimshar outskirts/tulimshar-western-hills",
+      "name": "tulimshar western hills"
     },
     {
-      "id": "tonori/tulimshar/castle-corridors.json",
-      "name": "castle corridors.json"
+      "id": "tonori/tulimshar/castle",
+      "name": "castle"
     },
     {
-      "id": "tonori/tulimshar/castle.json",
-      "name": "castle.json"
+      "id": "tonori/tulimshar/castle-corridors",
+      "name": "castle corridors"
     },
     {
-      "id": "tonori/tulimshar/tulimshar-bay.json",
-      "name": "tulimshar bay.json"
+      "id": "tonori/tulimshar/tulimshar",
+      "name": "tulimshar"
     },
     {
-      "id": "tonori/tulimshar/tulimshar-center.json",
-      "name": "tulimshar center.json"
+      "id": "tonori/tulimshar/tulimshar-bay",
+      "name": "tulimshar bay"
     },
     {
-      "id": "tonori/tulimshar/tulimshar.json",
-      "name": "tulimshar.json"
+      "id": "tonori/tulimshar/tulimshar-center",
+      "name": "tulimshar center"
     },
     {
-      "id": "tonori/tulimshar/wall-west-chamber.json",
-      "name": "wall west chamber.json"
+      "id": "tonori/tulimshar/wall-west-chamber",
+      "name": "wall west chamber"
     },
     {
-      "id": "tonori/tulimshar/wall-west-pathway.json",
-      "name": "wall west pathway.json"
+      "id": "tonori/tulimshar/wall-west-pathway",
+      "name": "wall west pathway"
     },
     {
-      "id": "tulimshar.json",
-      "name": "tulimshar.json"
+      "id": "tulimshar",
+      "name": "tulimshar"
     }
   ]
 }
