@@ -1,4 +1,4 @@
-name: Import Source of Mana map
+name: Import Source of Mana map and assets
 
 on:
   workflow_dispatch:
@@ -38,14 +38,46 @@ jobs:
       - name: Convert TMX to Tiled JSON
         run: npm run convert:sourceofmana -- --source ./sourceofmana --map "${{ inputs.map }}"
 
-      - name: Commit generated map assets
+      - name: Import reusable Source of Mana assets
+        run: |
+          set -e
+          mkdir -p public/assets/sourceofmana
+
+          # Character and creature art.
+          mkdir -p public/assets/sourceofmana/sprites
+          cp -R sourceofmana/data/graphics/sprites/monsters public/assets/sourceofmana/sprites/
+          cp -R sourceofmana/data/graphics/sprites/npcs public/assets/sourceofmana/sprites/
+          cp -R sourceofmana/data/graphics/sprites/players public/assets/sourceofmana/sprites/
+          cp -R sourceofmana/data/graphics/sprites/accessories public/assets/sourceofmana/sprites/
+          cp -R sourceofmana/data/graphics/sprites/equipment public/assets/sourceofmana/sprites/
+          cp -R sourceofmana/data/graphics/sprites/hairstyles public/assets/sourceofmana/sprites/
+
+          # Items, effects and UI-ready supporting graphics.
+          cp -R sourceofmana/data/graphics/items public/assets/sourceofmana/
+          cp -R sourceofmana/data/graphics/effects public/assets/sourceofmana/
+          cp -R sourceofmana/data/graphics/emotes public/assets/sourceofmana/
+          cp -R sourceofmana/data/graphics/minimaps public/assets/sourceofmana/
+          cp -R sourceofmana/data/graphics/gui public/assets/sourceofmana/
+
+          # Tilesets used by the Tiled maps.
+          cp -R sourceofmana/data/graphics/tilesets public/assets/sourceofmana/
+
+          # Data useful for rebuilding NPCs, monsters, items and world content.
+          mkdir -p public/assets/sourceofmana/data
+          if [ -d sourceofmana/data/db ]; then cp -R sourceofmana/data/db public/assets/sourceofmana/data/; fi
+          if [ -d sourceofmana/data/conf ]; then cp -R sourceofmana/data/conf public/assets/sourceofmana/data/; fi
+
+          # Preserve the upstream license/attribution next to imported content.
+          cp sourceofmana/LICENSE* public/assets/sourceofmana/ 2>/dev/null || true
+
+      - name: Commit generated map and imported assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/assets/maps
+          git add public/assets
           if git diff --cached --quiet; then
-            echo "No generated map changes."
+            echo "No generated asset changes."
             exit 0
           fi
-          git commit -m "build: import Source of Mana map ${{ inputs.map }}"
+          git commit -m "build: import Source of Mana map and assets"
           git push origin main
