@@ -194,6 +194,9 @@ class MapScene extends Phaser.Scene {
           continue;
         }
         if (layerData.type !== 'tilelayer') continue;
+        // Collision tiles are gameplay metadata, not visible terrain. Drawing this layer
+        // last can cover the entire world with the collision tileset's dark pixels.
+        if (/^collision(s)?$/i.test(layerData.name?.trim() ?? '')) continue;
         const layer = map.createLayer(layerData.name, tilesets, 0, 0);
         if (!layer) continue;
         layer.setDepth(layerData.id ?? this.mapLayers.length);
