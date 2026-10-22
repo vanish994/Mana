@@ -13,19 +13,19 @@ class MapScene extends Phaser.Scene {
   }
 
   create() {
+    const source = this.cache.tilemap.get(MAP_KEY).data;
     const map = this.make.tilemap({ key: MAP_KEY });
     const tilesets = [];
 
-    // The converter keeps each tileset image next to the generated map.
-    // Load every image before creating the tile layers so Phaser can resolve
-    // the Tiled tileset names correctly.
-    for (const tilesetData of map.tilesets) {
-      const imagePath = tilesetData.data?.image;
-      if (!imagePath) continue;
+    // The converter writes the image path into the raw Tiled tileset data.
+    // Phaser parses the map first, so we use that raw data to enqueue the
+    // images and only create the tile layers after those images are ready.
+    for (const tilesetData of source.tilesets ?? []) {
+      if (!tilesetData.image) continue;
 
       const key = `tileset:${tilesetData.name}`;
       if (!this.textures.exists(key)) {
-        this.load.image(key, `assets/maps/${imagePath}`);
+        this.load.image(key, `assets/maps/${tilesetData.image}`);
       }
     }
 
