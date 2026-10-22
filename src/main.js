@@ -174,7 +174,11 @@ class MapScene extends Phaser.Scene {
             this.showMapError('Erro: nenhum tileset carregado para este mapa.');
           } else {
             this.renderLayers(map, tilesets);
-            const visibleTiles = this.mapLayers.reduce((sum, layer) => sum + (layer.layer?.data?.flat?.().filter((tile) => tile?.index > -1).length ?? 0), 0);
+            const visibleTiles = this.mapLayers.reduce((sum, layer) => {
+              const rows = layer.layer?.data;
+              if (!Array.isArray(rows)) return sum;
+              return sum + rows.reduce((rowSum, row) => rowSum + (Array.isArray(row) ? row.filter((tile) => tile && tile.index >= 0).length : 0), 0);
+            }, 0);
             if (!this.mapLayers.length || visibleTiles === 0) {
               this.showMapError(`Mapa carregado, mas sem tiles visíveis. Camadas: ${source.layers?.map((layer) => layer.name).join(', ') || 'nenhuma'}; tilesets: ${tilesets.map((tileset) => tileset.name).join(', ') || 'nenhum'}.`);
             }
@@ -210,7 +214,9 @@ class MapScene extends Phaser.Scene {
         // Collision tiles are gameplay metadata, not visible terrain. Drawing this layer
         // last can cover the entire world with the collision tileset's dark pixels.
         if (/^collision(s)?$/i.test(layerData.name?.trim() ?? '')) continue;
-        const layer = map.createLayer(layerData.name, tilesets, 0, 0);
+        // Use the Tiled layer ID: this is stable even when Phaser's name lookup
+        // differs from the source JSON and avoids silently skipping valid layers.
+        const layer = map.createLayer(layerData.id, tilesets, 0, 0);
         if (!layer) {
           console.warn('Camada não criada:', layerData.name);
           continue;
