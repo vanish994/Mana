@@ -1,0 +1,51 @@
+name: Import Source of Mana map
+
+on:
+  workflow_dispatch:
+    inputs:
+      map:
+        description: Source of Mana TMX path
+        required: true
+        default: data/maps/tonori/tulimshar/tulimshar.tmx
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Mana
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Checkout Source of Mana
+        uses: actions/checkout@v4
+        with:
+          repository: vanish994/sourceofmana
+          path: sourceofmana
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Convert TMX to Tiled JSON
+        run: npm run convert:sourceofmana -- --source ./sourceofmana --map "${{ inputs.map }}"
+
+      - name: Commit generated map assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/maps
+          if git diff --cached --quiet; then
+            echo "No generated map changes."
+            exit 0
+          fi
+          git commit -m "build: import Source of Mana map ${{ inputs.map }}"
+          git push origin main
