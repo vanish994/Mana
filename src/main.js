@@ -169,10 +169,23 @@ class MapScene extends Phaser.Scene {
           if (tileset) tilesets.push(tileset);
         }
 
-        this.renderLayers(map, tilesets);
-        this.configureCamera(map);
-        this.createPlayer(map, spawn);
-        this.collectPortals(map);
+        try {
+          if (!tilesets.length) {
+            this.showMapError('Erro: nenhum tileset carregado para este mapa.');
+          } else {
+            this.renderLayers(map, tilesets);
+            const visibleTiles = this.mapLayers.reduce((sum, layer) => sum + (layer.layer?.data?.flat?.().filter((tile) => tile?.index > -1).length ?? 0), 0);
+            if (!this.mapLayers.length || visibleTiles === 0) {
+              this.showMapError(`Mapa carregado, mas sem tiles visíveis. Camadas: ${source.layers?.map((layer) => layer.name).join(', ') || 'nenhuma'}; tilesets: ${tilesets.map((tileset) => tileset.name).join(', ') || 'nenhum'}.`);
+            }
+          }
+          this.configureCamera(map);
+          this.createPlayer(map, spawn);
+          this.collectPortals(map);
+        } catch (error) {
+          console.error('Falha ao renderizar mapa', error);
+          this.showMapError(`Erro ao desenhar mapa: ${error?.message ?? error}`);
+        }
       };
 
       if (missing.length) this.load.once(Phaser.Loader.Events.COMPLETE, finishRender);
@@ -198,7 +211,10 @@ class MapScene extends Phaser.Scene {
         // last can cover the entire world with the collision tileset's dark pixels.
         if (/^collision(s)?$/i.test(layerData.name?.trim() ?? '')) continue;
         const layer = map.createLayer(layerData.name, tilesets, 0, 0);
-        if (!layer) continue;
+        if (!layer) {
+          console.warn('Camada não criada:', layerData.name);
+          continue;
+        }
         layer.setDepth(layerData.id ?? this.mapLayers.length);
         this.mapLayers.push(layer);
       }
